@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+
+<!-- header -->
+<head>
+        <!-- Titel des HTML Dokuments -->
+        <title>Formular</title>
+        <link rel="stylesheet" type="text/css" href="css/format.css" />
+</head>
+
+<!-- body -->
+<body>
+<!-- Beginn Content -->
+  <div class="content"> 
+
+    <h1>Kontaktformular</h1>
+    <br />
+    <!-- Formulare -->
+    <form method="post" action="kontakt/kontakt.php">
+      <fieldset>                                                
+        <legend>Ihre Daten</legend>
+        <label class="required">Vorname: </label>
+        <input type="text" name="vorname" tabindex="1" value="" />
+        <br />
+        <label class="required">Nachname: </label>
+        <input type="text" name="nachname" tabindex="2" />
+        <br />
+        <br />
+        <label>Telefon: </label>
+        <input type="text" name="telefon" tabindex="3" />
+        <br />
+        <label class="required">eMail: </label>
+        <input type="text" name="email" tabindex="4" />
+        <br />
+                <input style="margin-left: 160px;" type="submit" value="Abschicken" tabindex="9"/>
+        <input type="reset" tabindex="5" />
+      </fieldset>
+    </form>
+  </div>
+
+</body>
+</html>

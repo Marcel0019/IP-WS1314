@@ -1,0 +1,106 @@
+/* import norm.css um alle Browserstyles zu reseten */
+/* ------------------------------------------------ */
+
+@import "norm.css";
+
+/* ============================================ */
+/* Grundlegende settings für Body und Elementen */
+/* ============================================ */
+
+body {
+	background-color: #E6E4E3;
+	margin: 100px 0 0;
+	width: 100%;
+	color: #47403A;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 0.8em;
+}
+
+h1 {
+	color: #444444;
+	border-bottom: 1px inset #A4A4A4;
+	font-size: 1.7em;
+	padding: 12px 0 5px;
+}
+
+/* =============================== */
+/* Settings für html tag - content */
+/* =============================== */
+
+.content {
+	margin: auto;
+	padding: 15px 0;
+	width: 1000px;
+}
+
+.content-main-standalone {
+	background-color: #F5F5F5;
+	border-radius: 5px 5px 5px 5px;
+	box-shadow: 0 5px 10px #A4A4A4;
+	float: left;
+	margin: 45px 0 25px 0;
+	padding: 13px;
+	width: 910px;
+}
+
+/* ====================== */
+/* Settings für Formulare */
+/* ====================== */
+form {
+	margin-left: 10px;
+	padding: 0;
+	width: 560px;
+}
+form fieldset {
+	color: #444444;
+	border: 1px solid #888888;
+	margin: 0;
+	padding: 10px;
+}
+form label {
+	display: block;
+	float: left;
+	margin: 5px 0 0;
+	padding: 0;
+	text-align: right;
+	width: 150px;
+}
+form input {
+	margin: 5px 0 0 10px;
+	width: auto;
+}
+
+form input#reset {
+	margin-left: 0;
+}
+
+form .required {
+	font-weight: bold;
+}
+form br {
+	clear: left;
+A
+A
+A
+A
+A
+A
+A
+A
+A
+A
+A
+A
+A
+A
+A
+A
+A
+A
+A
+A
+A
+A
+A
+A
+}

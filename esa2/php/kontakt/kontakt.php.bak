@@ -1,0 +1,129 @@
+<?php
+// Signatureinstellungen
+// ---------------------
+// Name
+$signatur = "Marcel Wallbaum";
+// E-Mail-Adresse
+$mailto = "marcel.wallbaum@gmail.com";
+// Webseite
+$url = "http://www.rundwerk.de/wallbaum";
+
+// Mailinhalt
+error_reporting(0);
+$eingabefehler = "";
+$vorname = isset($_POST["vorname"]) ? $_POST["vorname"] : "";
+$nachname = isset($_POST["nachname"]) ? $_POST["nachname"] : "";
+$telefon = isset($_POST["telefon"]) ? $_POST["telefon"] : "";
+$email = isset($_POST["email"]) ? $_POST["email"] : "";
+
+$kontaktaufnahme = isset($_POST["kontaktaufnahme"]) ? $_POST["kontaktaufnahme"] : "";
+//Verarbeitung fuer Ausgabe
+$kontaktaufnahme_text = implode(', ',$kontaktaufnahme);
+
+$betreff = isset($_POST["betreff"]) ? $_POST["betreff"] : "";
+$user_eingabe = isset($_POST["user_eingabe"]) ? $_POST["user_eingabe"] : "";
+
+// Wurde das Formular abgesendet
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+ // Pflichtfelder überprüfen
+ if (strlen($nachname) <= 2) $eingabefehler .= "&bull; Nachname fehlt!<br>";
+ if (strlen($vorname) <= 2) $eingabefehler .= "&bull; Vorname fehlt!<br>";
+ if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) $eingabefehler .= "&bull; Fehler in der E-Mail-Adresse!<br>";
+ if (strlen($user_eingabe) <= 19) $eingabefehler .= "&bull; Die Nachricht " . ((strlen($user_eingabe) == 0) ? " fehlt" : " ist zu kurz") . " (min. 20 Zeichen)!<br>";
+
+ // Sind keine Eingabefehler vorhanden
+ if ($eingabefehler == "") {
+
+  // E-Mail-Adresse generieren
+  $text = "
+Name: $nachname, $vorname
+
+E-Mail: $email 
+
+Telefon: $telefon
+
+Betreff: $betreff
+
+Kontaktaufnahme via: $kontaktaufnahme_text
+
+Nachricht: $user_eingabe 
+
+  ";
+
+  // E-Mail versenden
+  mb_internal_encoding("ISO-8859-1");
+  $Betreff = mb_encode_mimeheader($betreff, "ISO-8859-1", "Q");
+  $kopfzeile = "MIME-Version: 1.0;\nFrom: " . mb_encode_mimeheader($name, "ISO-8859-1", "Q") .
+   "<" . $mailfrom . ">\nContent-Type: text/plain; Charset=ISO-8859-1;\n";
+  if (mail($mailto, $betreff, $text, $kopfzeile)) {
+
+   // Bestätigung der E-Mail
+   echo "<p class='hintergrund danke'>" . 
+   "Vielen Dank, die Nachricht wurde versendet.<br><br>";
+
+	// E-Mail Kopie
+    // Diese Nachricht wird an die E-Mail-Adresse des Besuchers gesendet.
+    $kopie = "
+Vielen Dank für Ihren Besuch bei $url 
+
+Wir haben folgende Nachricht erhalten: 
+
+
+
+Name: $nachname, $vorname
+
+E-Mail: $email 
+
+Telefon: $telefon
+
+Betreff: $betreff
+
+Kontaktaufnahme via: $kontaktaufnahme_text
+
+Nachricht: $user_eingabe 
+
+
+
+
+Mit freundlichen Grüßen, 
+
+	 $signatur
+
+    
+
+    
+Diese E-Mail wurde vom System automatisch erstellt.
+    ";
+
+    // E-Mail Kopie versenden
+    $betreff = mb_encode_mimeheader("Kopie einer Anfrage", "ISO-8859-1", "Q");
+    $kopfzeile = "MIME-Version: 1.0;\nFrom: " . mb_encode_mimeheader($signatur, "ISO-8859-1", "Q") .
+     "<" . $mailto . ">\nContent-Type: text/plain; Charset=ISO-8859-1;\n";
+    if (mail($email, $betreff, $kopie, $kopfzeile)) {
+
+     // Bestätigung der E-Mail Kopie
+     echo "Sie erhalten eine Kopie Ihrer Nachricht an Ihre E-Mail-Adresse.<br><br>";
+    }
+
+   // Link zur Startseite
+   echo "<a href='$url'>Weiter zur Startseite</a></p>";
+  }
+  else {
+
+   // Wenn die Nachricht nicht versendet werden konnte,
+   // wird die E-Mail-Adresse für den direkten Kontakt eingeblendet.
+   echo "<p class='hintergrund danke'>Beim Senden der Nachricht ist ein Fehler aufgetreten!<br>" .
+   "Bitte wenden Sie sich direkt an: <a href='mailto:" . $mailto . "'>" . $mailto . "</a></p>";
+  }
+  
+ }
+ else {
+
+  // Eingabefehler und Formular ausgeben
+  echo ("<!-- Fehleranzeige -->");
+  echo ("<b>Die Nachricht wurde aus folgendem Grund nicht versendet:</b><br>");
+  echo ($eingabefehler);
+ }
+}
+?>
