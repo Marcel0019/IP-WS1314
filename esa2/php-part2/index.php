@@ -1,3 +1,5 @@
+<!-- PHP Teil -->
+
 <?php
 
 /**
@@ -12,7 +14,6 @@
  */
 
 //Variablen Init
-$_FEHLERCODE[] = "";
 $ergebnis = "";
 $error = false;
 $quelltext = "";
@@ -28,29 +29,21 @@ $status = "";
  * Ausgabe und Programmende
  *
  */
-function errorHandling($code) {
-    global $_FEHLERCODE;
-
-    array_push($_FEHLERCODE, $code);
-}
-
 
 //Pruefung der eingegebenen Werte
 if (isset($_POST['Submit'])) {
 
     //Pruefung des Quelltextes
-    if (isset($_POST["quelltext"]) && is_string($_POST["quelltext"])) {
-        $quelltext = htmlentities($_POST['quelltext']);
+    if (isset($_POST["quelltext"]) && $_POST["quelltext"] != '') {
+        $quelltext = htmlentities($_POST["quelltext"]);
     } else {
-        errorHandling("Quelltext!");
         $error = true;
     }
 
     //Pruefung des Patterns
-    if (isset($_POST["pattern"]) && is_string($_POST["pattern"])) {
-        $pattern = htmlentities($_POST['pattern']);
+    if (isset($_POST["pattern"]) && $_POST["pattern"] != '') {
+        $pattern = htmlentities($_POST["pattern"]);
     } else {
-        errorHandling("Pattern!");
         $error = true;
     }
 
@@ -58,7 +51,6 @@ if (isset($_POST['Submit'])) {
     if (isset($_POST["ersatztext"]) && is_string($_POST["ersatztext"])) {
         $ersatztext = htmlentities($_POST['ersatztext']);
     } else {
-        errorHandling("Ersatztext!");
         $error = true;
     }
 
@@ -70,23 +62,14 @@ if (isset($_POST['Submit'])) {
             $status = "erfolgreich";
         }
     } else {
-        $status = "Fehler: ".print_r($_FEHLERCODE)." ";
+        $status = "Fehler bei den Eingabewerten!";
     }
-
 }
 
-//Ende der Formular Validierung
-///////////////////////////////
-
-///////////////////////////////
-// Preg_Replace
-
-//   $ergebnis = htmlspecialchars(preg_replace($_POST['pattern'], $_POST['ersatztext'], $_POST['quelltext']));
-
-//Ende Preg_Replace
-///////////////////////////////
-
 ?>
+
+<!-- HTML Teil -->
+
 <!DOCTYPE html>
 <html>
 <!-- header -->
@@ -119,8 +102,10 @@ if (isset($_POST['Submit'])) {
             <label>Ergebnis: </label>
             <textarea name="ergebnis" readonly rows="5" cols="35" tabindex="4"><?php echo $ergebnis; ?></textarea>
             <br/> <br/>
-            <label>Status: <?php echo $status; ?></label><br><br>
-            <input style="margin-left: 160px;" type="Submit" value="Submit" name='Submit' tabindex="5"/>
+            <label>Status:</label>
+            <label style="width: 200px; font-weight: bold;"><?php echo $status; ?></label>
+            <br><br>
+            <input style="margin-left: 170px;" type="Submit" value="Submit" name='Submit' tabindex="5"/>
             <input type="reset" tabindex="6"/>
         </fieldset>
     </form>
