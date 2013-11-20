@@ -63,7 +63,7 @@ if($_POST['geschlecht'] == "") {
 //prüfen, ob ein Fehler bei den Formulareingaben erkannt wurde
 //wenn ja, dann Ausgabe der Fehler
 if ($fehler) {
-    echo "Es ist ein Fehler bei der Eingabe aufgetreten, bitte prüfen Sie den Wert für : <br><br>";
+    echo "Es ist ein Fehler bei der Eingabe aufgetreten, bitte pruefen Sie den Wert fuer : <br><br>";
 
     foreach($fehler_array AS $name) {
         echo " - ".$name." <br>";
@@ -85,6 +85,8 @@ if ($fehler) {
 function _cvsSucheDatensatz($csvArray, $matrikelnr){
 
     $in_array = false;
+    $key = "";
+    $value = "";
     foreach ($csvArray as $key => $value){
        if($csvArray[$key][2] == $matrikelnr) {
            $in_array = true;
@@ -148,6 +150,10 @@ function clean_array($array){
             unset($array[$key]);
         }
     }
+
+    //re-index the array
+    $array = array_values($array);
+
     return $array;
 }
 
@@ -158,7 +164,7 @@ function clean_array($array){
 function _csvDelete($file,$csvArray,$matrikelnr) {
 
     if (!_cvsSucheDatensatz($csvArray,$matrikelnr)) {
-        errorHandling("Datensatz zum Löschen ist nicht vorhanden!\nBitte prüfen Sie die Eingaben!");
+        errorHandling("Datensatz zum Loeschen ist nicht vorhanden!\nBitte pruefen Sie die Eingaben!");
     }
 
     //csv Datensatz löschen
@@ -169,24 +175,18 @@ function _csvDelete($file,$csvArray,$matrikelnr) {
         }
     }
 
-    $new_array = clean_array($csvArray);
-/*
-    //Array für neue Datei generieren
-    $_newData[] = "";
-    $_length = count($csvArray);
-    for($i=0;$i<$_length;$i++){
-        $_newData = $vorname.",".$nachname.",".$matrikelnr.",".$geschlecht;
-        writeFile($handle, $content);
-    }
-    fclose($handle);
-*/
-    //neues Array in Datei schreiben
+    $csvArray = clean_array($csvArray);
+
+    //neues Array zeilenweise in Datei schreiben
     $fp = fopen($file, 'w+');
-    if (!fputcsv($fp, $new_array)) {
-        errorHandling("Daten konnten nicht gespeichert werden");
-    } else {
-        echo "Die Personendaten wurden erfolgreich gespeichert.";
+    foreach ($csvArray as $fields)
+    {
+        if (!fputcsv($fp, $fields)) {
+            errorHandling("Problem beim loeschen der Daten!");
+        }
     }
+    echo "Die Personendaten wurden erfolgreich geloescht.";
+
     fclose($fp);
 }
 
