@@ -85,8 +85,6 @@ if ($fehler) {
 function _cvsSucheDatensatz($csvArray, $matrikelnr){
 
     $in_array = false;
-    $key = "";
-    $value = "";
     foreach ($csvArray as $key => $value){
        if($csvArray[$key][2] == $matrikelnr) {
            $in_array = true;
@@ -164,7 +162,7 @@ function clean_array($array){
 function _csvDelete($file,$csvArray,$matrikelnr) {
 
     if (!_cvsSucheDatensatz($csvArray,$matrikelnr)) {
-        errorHandling("Datensatz zum Loeschen ist nicht vorhanden!\nBitte pruefen Sie die Eingaben!");
+        errorHandling("Datensatz zum Loeschen ist nicht vorhanden! Bitte pruefen Sie die Eingaben!");
     }
 
     //csv Datensatz löschen

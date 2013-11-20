@@ -59,6 +59,9 @@ form fieldset {
 	margin: 0;
 	padding: 10px;
 }
+form textarea {
+	margin-left:10px;
+}
 form label {
 	display: block;
 	float: left;
