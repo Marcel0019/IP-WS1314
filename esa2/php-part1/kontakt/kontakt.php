@@ -86,12 +86,13 @@ function _cvsSucheDatensatz($csvArray, $matrikelnr){
 
     $in_array = false;
     foreach ($csvArray as $key => $value){
-       if($csvArray[$key][2] == $matrikelnr) {
-           $in_array = true;
-           break;
-       }
+       if(is_array($value)){
+            if($csvArray[$key][2] == $matrikelnr) {
+                $in_array = true;
+                break;
+            }
+        }
     }
-
     return $in_array;
 }
 
@@ -167,12 +168,14 @@ function _csvDelete($file,$csvArray,$matrikelnr) {
 
     //csv Datensatz löschen
     foreach ($csvArray as $key => $value){
-        if($csvArray[$key][2] == $matrikelnr) {
-            unset($csvArray[$key]);
-            break;
-        }
+		if(is_array($value)){
+			if($csvArray[$key][2] == $matrikelnr) {
+					unset($csvArray[$key]);
+					break;
+				}
+			}
     }
-
+	
     $csvArray = clean_array($csvArray);
 
     //neues Array zeilenweise in Datei schreiben
